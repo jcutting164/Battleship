@@ -2,18 +2,47 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
 
 public class MouseInput implements MouseListener, MouseMotionListener{
         //where initialization occurs:
         //Register for mouse events on blankArea and the panel.
-       
+     
 	private Game game;
-	
+	private int setupRow=-1;
+	private int setupColumn=-1;
+	private String currentSelected="";
 	public MouseInput(Game game){
 		this.game=game;
 	}
 
     public void mousePressed(MouseEvent e) {
+    	if(game.getCurrentState().equals("Setup") && e.getY()/72<11 && e.getX()/72<11 && e.getY()>71 && e.getX()>71){
+    		setupRow=e.getY()/72 - 1;
+        	setupColumn=e.getX()/72 - 1;
+        	
+        	// check for ship present 
+        	if(!(game.getBoardP1()[setupRow][setupColumn].equals(" "))){
+        		// then there is a piece here
+        		currentSelected=game.getBoardP1()[setupRow][setupColumn];
+        		game.removeSelection(game.getBoardP1());
+        		game.setSelectedCoords(new ArrayList<ArrayList<Integer>>());
+        		ArrayList<Integer> tempCoords=new ArrayList<>();
+        		tempCoords.add(setupRow); tempCoords.add(setupColumn);
+        		game.getSelectedCoords().add(tempCoords);
+        		game.selectAll(currentSelected, game.getBoardP1());
+        		
+        		// TO BE DONE: ADD SELECTION COORDS TO ARRAY IN THE SELECT ALL FUNCTION IN MAIN GAME
+        		
+        	}else{
+        		currentSelected="";
+        	}
+        	
+        	
+    	}else{
+    		setupRow=-1;
+    		setupColumn=-1;
+    	}
     	
     }
 
@@ -40,9 +69,6 @@ public class MouseInput implements MouseListener, MouseMotionListener{
 	}
 
 	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
-		System.out.println("hap");
-		// TODO Auto-generated method stub
 		if(game.getCurrentState().equals("Menu")){
 			game.setStartSelect(false);
 			if(new Rectangle(860, 100, 256, 96).intersects(new Rectangle(e.getX(),e.getY(),1,1))){
@@ -53,6 +79,35 @@ public class MouseInput implements MouseListener, MouseMotionListener{
 		
 		
 	}
+
+	public int getSetupRow() {
+		return setupRow;
+	}
+
+	public void setSetupRow(int setupRow) {
+		this.setupRow = setupRow;
+	}
+
+	public int getSetupColumn() {
+		return setupColumn;
+	}
+
+	public void setSetupColumn(int setupColumn) {
+		this.setupColumn = setupColumn;
+	}
+
+	public String getCurrentSelected() {
+		return currentSelected;
+	}
+
+	public void setCurrentSelected(String currentSelected) {
+		this.currentSelected = currentSelected;
+	}
+	
+	
+	
+	
+	
 
 
 }

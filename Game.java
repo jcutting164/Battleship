@@ -1,4 +1,5 @@
 import java.awt.Canvas;
+
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -35,8 +36,8 @@ public class Game extends Canvas implements Runnable{
     
     private KeyInput keyInput;
     private MouseInput mouseInput;
-
-    private String[] STATES = {"Menu", "Game"};
+// STATES ARE HEREEEEEEEE
+    private String[] STATES = {"Menu", "Game","Setup"};
     private String currentState="Menu";
     static Textures tex;
     private boolean startSelect=false;
@@ -72,6 +73,13 @@ public class Game extends Canvas implements Runnable{
     };
     
     
+    // Coordinate arraylist of all selected pieces
+    private ArrayList<ArrayList<Integer>> selectedCoords=new ArrayList<>();
+    
+    
+    
+    
+    
        
     
     private Window window;
@@ -80,7 +88,7 @@ public class Game extends Canvas implements Runnable{
     	
 
 
-       keyInput = new KeyInput();
+       keyInput = new KeyInput(this);
 
         this.addKeyListener(keyInput);
         
@@ -151,8 +159,9 @@ public class Game extends Canvas implements Runnable{
     private void tick() {
         try{
             
-           
-
+           System.out.println(mouseInput.getSetupColumn());
+           System.out.println(mouseInput.getSetupRow());
+           System.out.println(mouseInput.getCurrentSelected());
 
 
 
@@ -257,7 +266,10 @@ public class Game extends Canvas implements Runnable{
         	
         	for(int i = 0; i<boardP1.length; i++){
         		for(int j = 0; j<boardP1[0].length; j++){
-        			if(boardP1[j][i].contains("C")){
+        			if(boardP1[j][i].contains("$")){
+        				g.setColor(Color.cyan);
+        				g.fillRect((72)+   +i*72+1,(72)+   1+(72*j),71,71);
+        			}else if(boardP1[j][i].contains("C")){
         				g.setColor(Color.red);
         				g.fillRect((72)+   +i*72+1,(72)+   1+(72*j),71,71);
         			}else if(boardP1[j][i].contains("B")){
@@ -345,6 +357,79 @@ public class Game extends Canvas implements Runnable{
 
 	public void setStartSelect(boolean startSelect) {
 		this.startSelect = startSelect;
+	}
+	
+	
+	
+	
+
+	public String[][] getBoardP1() {
+		return boardP1;
+	}
+
+	public void setBoardP1(String[][] boardP1) {
+		this.boardP1 = boardP1;
+	}
+	
+	
+	public void selectAll(String shipType, String[][] board){
+		for(int i = 0; i<board.length; i++){
+			for(int j = 0; j<board[0].length; j++){
+				if(board[i][j].contains(shipType)){
+					board[i][j]+="$";
+				}
+			}
+		}
+	}
+	public void removeSelection(String[][] board){
+		for(int i = 0; i<board.length; i++){
+			for(int j = 0; j<board[0].length; j++){
+				if(board[i][j].contains("$")){
+					String temp = board[i][j];
+					String giveback="";
+					for(int loop = 0; loop<temp.length(); loop++){
+						if(!temp.substring(loop,loop+1).contains("$")){
+							giveback+=temp.substring(loop,loop+1);
+						}
+					}
+					board[i][j]=giveback;
+				}
+			}
+		}
+	}
+	
+
+	public KeyInput getKeyInput() {
+		return keyInput;
+	}
+
+	public void setKeyInput(KeyInput keyInput) {
+		this.keyInput = keyInput;
+	}
+
+	public MouseInput getMouseInput() {
+		return mouseInput;
+	}
+
+	public void setMouseInput(MouseInput mouseInput) {
+		this.mouseInput = mouseInput;
+	}
+
+	public String getCurrentSelection() {
+		return currentSelection;
+	}
+
+	public void setCurrentSelection(String currentSelection) {
+		this.currentSelection = currentSelection;
+	}
+	
+
+	public ArrayList<ArrayList<Integer>> getSelectedCoords() {
+		return selectedCoords;
+	}
+
+	public void setSelectedCoords(ArrayList<ArrayList<Integer>> selectedCoords) {
+		this.selectedCoords = selectedCoords;
 	}
 
 	public static void main(String[] args) {

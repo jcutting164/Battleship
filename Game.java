@@ -73,6 +73,10 @@ public class Game extends Canvas implements Runnable{
     };
     
     
+    private HashMap<String,Integer> shipHash= new HashMap<>();
+    
+    
+    
     // Coordinate arraylist of all selected pieces
     private ArrayList<ArrayList<Integer>> selectedCoords=new ArrayList<>();
     
@@ -85,7 +89,14 @@ public class Game extends Canvas implements Runnable{
     private Window window;
 
     public Game() {
-    	
+       shipHash.put("C",5);
+       shipHash.put("B",4);
+       shipHash.put("R",3);
+       shipHash.put("S",3);
+       shipHash.put("D",2);
+       
+       
+
 
 
        keyInput = new KeyInput(this);
@@ -161,7 +172,10 @@ public class Game extends Canvas implements Runnable{
             
            System.out.println(mouseInput.getSetupColumn());
            System.out.println(mouseInput.getSetupRow());
-           System.out.println(mouseInput.getCurrentSelected());
+           System.out.println("current selected: "+mouseInput.getCurrentSelected());
+           for(int i = 0; i<selectedCoords.size(); i++){
+        	   System.out.println(selectedCoords.get(i));
+           }
 
 
 
@@ -377,6 +391,11 @@ public class Game extends Canvas implements Runnable{
 			for(int j = 0; j<board[0].length; j++){
 				if(board[i][j].contains(shipType)){
 					board[i][j]+="$";
+					
+					ArrayList<Integer> tempCoords=new ArrayList<>();
+	        		tempCoords.add(i); tempCoords.add(j);
+	        		selectedCoords.add(tempCoords);					
+				
 				}
 			}
 		}
@@ -397,8 +416,50 @@ public class Game extends Canvas implements Runnable{
 			}
 		}
 	}
+	// removes a character out of a 2d array based on strings
+	public void removeChar(String[][] board, String removal){
+		for(int i = 0; i<board.length; i++){
+			for(int j = 0; j<board[0].length; j++){
+				if(board[i][j].contains(removal)){
+					String temp = board[i][j];
+					String giveback="";
+					for(int loop = 0; loop<temp.length(); loop++){
+						if(!temp.substring(loop,loop+1).contains("$")){
+							giveback+=temp.substring(loop,loop+1);
+						}
+					}
+					board[i][j]=giveback;
+				}
+			}
+		}
+	}
+	// removes a character out of a singular string 
+	public void removeChar(String start, String removal){
+		String end="";
+		for(int i = 0; i<start.length(); i++){
+			if(!(start.substring(i,i+1).equals(removal))){
+				end+=start.substring(i,i+1);
+			}
+			
+		}
+	}
 	
-
+	// removes a character out of a singular string AND will stop after the first time it finds one
+	
+	public String removeCharSingle(String start, String removal){
+		String end="";
+		for(int i = 0; i<start.length(); i++){
+			if(!(start.substring(i,i+1).equals(removal))){
+				end+=start.substring(i,i+1);
+			}else{
+				break;
+			}
+			
+		}
+		return end;
+	}
+	
+	
 	public KeyInput getKeyInput() {
 		return keyInput;
 	}
@@ -430,6 +491,16 @@ public class Game extends Canvas implements Runnable{
 
 	public void setSelectedCoords(ArrayList<ArrayList<Integer>> selectedCoords) {
 		this.selectedCoords = selectedCoords;
+	}
+	
+	
+
+	public HashMap<String, Integer> getShipHash() {
+		return shipHash;
+	}
+
+	public void setShipHash(HashMap<String, Integer> shipHash) {
+		this.shipHash = shipHash;
 	}
 
 	public static void main(String[] args) {

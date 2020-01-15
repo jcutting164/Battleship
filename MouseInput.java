@@ -27,9 +27,7 @@ public class MouseInput implements MouseListener, MouseMotionListener{
         		currentSelected=game.getBoardP1()[setupRow][setupColumn];
         		game.removeSelection(game.getBoardP1());
         		game.setSelectedCoords(new ArrayList<ArrayList<Integer>>());
-        		ArrayList<Integer> tempCoords=new ArrayList<>();
-        		tempCoords.add(setupRow); tempCoords.add(setupColumn);
-        		game.getSelectedCoords().add(tempCoords);
+        		
         		game.selectAll(currentSelected, game.getBoardP1());
         		
         		// TO BE DONE: ADD SELECTION COORDS TO ARRAY IN THE SELECT ALL FUNCTION IN MAIN GAME

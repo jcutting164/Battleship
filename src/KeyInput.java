@@ -42,15 +42,15 @@ public class KeyInput extends KeyAdapter implements Serializable {
         		
         		// getting the movement coords to check if available before actually movement
         		
-
+        			
         		
 
         			ArrayList<ArrayList<Integer>> temp = new ArrayList<ArrayList<Integer>>();
             		for(int i = 0; i<game.getSelectedCoords().size(); i++){
             			
                 		// clears what is currently selected
-
-            			game.getBoardP1()[game.getSelectedCoords().get(i).get(0)][game.getSelectedCoords().get(i).get(1)]="";
+            			// NOTICE: the reset is to the original board space: " "
+            			game.getBoardP1()[game.getSelectedCoords().get(i).get(0)][game.getSelectedCoords().get(i).get(1)]=" ";
             			
             			// modifies the current selected coords
             			ArrayList<Integer> temp2=new ArrayList<Integer>();
@@ -60,11 +60,32 @@ public class KeyInput extends KeyAdapter implements Serializable {
             			temp.add(temp2);
             		}
             		
+            		// to check for stopping movement we will check for pieces in temp
+            		// if there are pieces, then we will NOT add to selected coords in game
+            		// the rest HAS to run so that it will readd the pieces to where they were already
+            		
+            		/* EACH SHIP WILL BE A COLOR AT THE MOMENT UNTIL GRAPHICS ARE ADDED TO FILL SPACE
+           		 C = Carrier / RED
+           		 B = Battleship / ORANGE
+           		 R = Cruiser / YELLOW
+           		 S = Submarine / GREEN
+           		 D = Destroyer / BLUE
+           		 */
+            		boolean add=true;
+            		for(int i = 0; i<temp.size(); i++){
+            			String check=game.getBoardP1()[temp.get(i).get(0)][temp.get(i).get(1)];
+            			if(check.contains("D") || check.contains("C") || check.contains("B") || check.contains("R") || check.contains("S")){
+            				add=false;
+            				break;
+            			}
+            		}
+            		
             		// readds the temp list to the real list that game is using
-            		game.setSelectedCoords(temp);
+            		if(add)
+            			game.setSelectedCoords(temp);
             		
             	 		
-            		// readds the ships to the board
+            		// readds the ships to the board via the selected coords
             		
             		for(int i = 0; i<game.getSelectedCoords().size(); i++){
             			game.getBoardP1()[game.getSelectedCoords().get(i).get(0)][game.getSelectedCoords().get(i).get(1)]+=("$"+game.getMouseInput().getCurrentSelected());
@@ -84,7 +105,7 @@ public class KeyInput extends KeyAdapter implements Serializable {
         			
             		// clears what is currently selected
 
-        			game.getBoardP1()[game.getSelectedCoords().get(i).get(0)][game.getSelectedCoords().get(i).get(1)]="";
+        			game.getBoardP1()[game.getSelectedCoords().get(i).get(0)][game.getSelectedCoords().get(i).get(1)]=" ";
         			
         			// modifies the current selected coords
         			ArrayList<Integer> temp2=new ArrayList<Integer>();
@@ -94,9 +115,19 @@ public class KeyInput extends KeyAdapter implements Serializable {
         			temp.add(temp2);
         		}
         		
-        		// readds the temp list to the real list that game is using
-        		game.setSelectedCoords(temp);
+        		boolean add=true;
+        		for(int i = 0; i<temp.size(); i++){
+        			String check=game.getBoardP1()[temp.get(i).get(0)][temp.get(i).get(1)];
+        			if(check.contains("D") || check.contains("C") || check.contains("B") || check.contains("R") || check.contains("S")){
+        				add=false;
+        				break;
+        			}
+        		}
         		
+        		// readds the temp list to the real list that game is using
+        		if(add)
+        			game.setSelectedCoords(temp);
+        		        		
         	 		
         		// readds the ships to the board
         		
@@ -112,7 +143,7 @@ public class KeyInput extends KeyAdapter implements Serializable {
         			
             		// clears what is currently selected
 
-        			game.getBoardP1()[game.getSelectedCoords().get(i).get(0)][game.getSelectedCoords().get(i).get(1)]="";
+        			game.getBoardP1()[game.getSelectedCoords().get(i).get(0)][game.getSelectedCoords().get(i).get(1)]=" ";
         			
         			// modifies the current selected coords
         			ArrayList<Integer> temp2=new ArrayList<Integer>();
@@ -123,7 +154,18 @@ public class KeyInput extends KeyAdapter implements Serializable {
         		}
         		
         		// readds the temp list to the real list that game is using
-        		game.setSelectedCoords(temp);
+        		boolean add=true;
+        		for(int i = 0; i<temp.size(); i++){
+        			String check=game.getBoardP1()[temp.get(i).get(0)][temp.get(i).get(1)];
+        			if(check.contains("D") || check.contains("C") || check.contains("B") || check.contains("R") || check.contains("S")){
+        				add=false;
+        				break;
+        			}
+        		}
+        		
+        		// readds the temp list to the real list that game is using
+        		if(add)
+        			game.setSelectedCoords(temp);
         		
         	 		
         		// readds the ships to the board
@@ -141,7 +183,7 @@ public class KeyInput extends KeyAdapter implements Serializable {
         			
             		// clears what is currently selected
 
-        			game.getBoardP1()[game.getSelectedCoords().get(i).get(0)][game.getSelectedCoords().get(i).get(1)]="";
+        			game.getBoardP1()[game.getSelectedCoords().get(i).get(0)][game.getSelectedCoords().get(i).get(1)]=" ";
         			
         			// modifies the current selected coords
         			ArrayList<Integer> temp2=new ArrayList<Integer>();
@@ -151,8 +193,18 @@ public class KeyInput extends KeyAdapter implements Serializable {
         			temp.add(temp2);
         		}
         		
+        		boolean add=true;
+        		for(int i = 0; i<temp.size(); i++){
+        			String check=game.getBoardP1()[temp.get(i).get(0)][temp.get(i).get(1)];
+        			if(check.contains("D") || check.contains("C") || check.contains("B") || check.contains("R") || check.contains("S")){
+        				add=false;
+        				break;
+        			}
+        		}
+        		
         		// readds the temp list to the real list that game is using
-        		game.setSelectedCoords(temp);
+        		if(add)
+        			game.setSelectedCoords(temp);
         		
         	 		
         		// readds the ships to the board
@@ -162,6 +214,50 @@ public class KeyInput extends KeyAdapter implements Serializable {
         			System.out.println(game.getCurrentSelection());
         			game.getBoardP1()[game.getSelectedCoords().get(i).get(0)][game.getSelectedCoords().get(i).get(1)]+=("$"+game.getMouseInput().getCurrentSelected());
         		}
+        		
+        		
+        	}else if(key==KeyEvent.VK_R){
+        		ArrayList<ArrayList<Integer>> temp = new ArrayList<ArrayList<Integer>>();
+        		for(int i = 1; i<game.getSelectedCoords().size(); i++){
+        			ArrayList<Integer> temp2=new ArrayList<Integer>();
+        			// constant x value of the pivot (first in the list)
+        			
+        			// subtracts i from the y value to move it down 
+        			temp2.add((game.getSelectedCoords().get(i).get(0)) -i);
+        			temp2.add(game.getSelectedCoords().get(0).get(1));
+        			System.out.println("orig y coord: "+game.getSelectedCoords().get(i).get(1));
+        			
+        			temp.add(temp2);
+        		}
+        		
+        		System.out.println("Desired: "+temp);
+        		
+        		
+        		// confirms the readdition of pieces on the board
+        		// NEED: temp for the rotation of varying pieces
+        		
+        		boolean add=true;
+        		for(int i = 0; i<temp.size(); i++){
+        			String check=game.getBoardP1()[temp.get(i).get(0)][temp.get(i).get(1)];
+        			if(check.contains("D") || check.contains("C") || check.contains("B") || check.contains("R") || check.contains("S")){
+        				add=false;
+        				break;
+        			}
+        		}
+        		
+        		// readds the temp list to the real list that game is using
+        		if(add)
+        			game.setSelectedCoords(temp);
+        		
+        	 		
+        		// readds the ships to the board
+        		
+        		for(int i = 0; i<game.getSelectedCoords().size(); i++){
+        			System.out.println("jajaja "+"$"+game.getCurrentSelection());
+        			System.out.println(game.getCurrentSelection());
+        			game.getBoardP1()[game.getSelectedCoords().get(i).get(0)][game.getSelectedCoords().get(i).get(1)]+=("$"+game.getMouseInput().getCurrentSelected());
+        		}
+        		
         		
         		
         	}

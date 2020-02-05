@@ -74,7 +74,7 @@ public class KeyInput extends KeyAdapter implements Serializable {
             		boolean add=true;
             		for(int i = 0; i<temp.size(); i++){
             			String check=game.getBoardP1()[temp.get(i).get(0)][temp.get(i).get(1)];
-            			if(check.contains("D") || check.contains("C") || check.contains("B") || check.contains("R") || check.contains("S")){
+            			if(check.contains("D") || check.contains("C") || check.contains("B") || check.contains("R") || check.contains("S")|| check.contains("S") || temp.get(i).get(0)==9 || temp.get(i).get(0)==0 || temp.get(i).get(1)==9  || temp.get(i).get(1)==0){
             				add=false;
             				break;
             			}
@@ -118,7 +118,7 @@ public class KeyInput extends KeyAdapter implements Serializable {
         		boolean add=true;
         		for(int i = 0; i<temp.size(); i++){
         			String check=game.getBoardP1()[temp.get(i).get(0)][temp.get(i).get(1)];
-        			if(check.contains("D") || check.contains("C") || check.contains("B") || check.contains("R") || check.contains("S")){
+        			if(check.contains("D") || check.contains("C") || check.contains("B") || check.contains("R") || check.contains("S")|| check.contains("S") ||temp.get(i).get(0)==9 || temp.get(i).get(0)==0 || temp.get(i).get(1)==9  || temp.get(i).get(1)==0){
         				add=false;
         				break;
         			}
@@ -157,7 +157,7 @@ public class KeyInput extends KeyAdapter implements Serializable {
         		boolean add=true;
         		for(int i = 0; i<temp.size(); i++){
         			String check=game.getBoardP1()[temp.get(i).get(0)][temp.get(i).get(1)];
-        			if(check.contains("D") || check.contains("C") || check.contains("B") || check.contains("R") || check.contains("S")){
+        			if(check.contains("D") || check.contains("C") || check.contains("B") || check.contains("R") || check.contains("S")|| check.contains("S") ||temp.get(i).get(0)==9 || temp.get(i).get(0)==0 || temp.get(i).get(1)==9  || temp.get(i).get(1)==0){
         				add=false;
         				break;
         			}
@@ -196,7 +196,7 @@ public class KeyInput extends KeyAdapter implements Serializable {
         		boolean add=true;
         		for(int i = 0; i<temp.size(); i++){
         			String check=game.getBoardP1()[temp.get(i).get(0)][temp.get(i).get(1)];
-        			if(check.contains("D") || check.contains("C") || check.contains("B") || check.contains("R") || check.contains("S")){
+        			if(check.contains("D") || check.contains("C") || check.contains("B") || check.contains("R") || check.contains("S") || temp.get(i).get(0)>9 || temp.get(i).get(0)==9 || temp.get(i).get(0)==0 || temp.get(i).get(1)==9  || temp.get(i).get(1)==0){
         				add=false;
         				break;
         			}
@@ -218,36 +218,83 @@ public class KeyInput extends KeyAdapter implements Serializable {
         		
         	}else if(key==KeyEvent.VK_R){
         		ArrayList<ArrayList<Integer>> temp = new ArrayList<ArrayList<Integer>>();
-        		for(int i = 1; i<game.getSelectedCoords().size(); i++){
-        			ArrayList<Integer> temp2=new ArrayList<Integer>();
-        			// constant x value of the pivot (first in the list)
+        		// x values are the same -> rotate to be vertical
+        		if(game.getSelectedCoords().get(0).get(0)==game.getSelectedCoords().get(1).get(0)){
         			
-        			// subtracts i from the y value to move it down 
-        			temp2.add((game.getSelectedCoords().get(i).get(0)) -i);
-        			temp2.add(game.getSelectedCoords().get(0).get(1));
-        			System.out.println("orig y coord: "+game.getSelectedCoords().get(i).get(1));
+        			// ADD MOVE BACK AND RESELECTION
+            		
+            		
+            		for(int i = 1; i<game.getSelectedCoords().size(); i++){
+            			ArrayList<Integer> temp2=new ArrayList<Integer>();
+            			// constant x value of the pivot (first in the list)
+            			game.getBoardP1()[game.getSelectedCoords().get(i).get(0)][game.getSelectedCoords().get(i).get(1)]=" ";
+
+            			// subtracts i from the y value to move it down 
+            			temp2.add((game.getSelectedCoords().get(i).get(0)) -i);
+            			temp2.add(game.getSelectedCoords().get(0).get(1));
+            			System.out.println("orig y coord: "+game.getSelectedCoords().get(i).get(1));
+            			
+            			temp.add(temp2);
+            		}
+            		
+            		System.out.println("Desired: "+temp);
+            		
+            		
+            		
         			
-        			temp.add(temp2);
+        		}else{
+        			// rotate to be horizontal
+
+            		
+            		for(int i = 1; i<game.getSelectedCoords().size(); i++){
+            			ArrayList<Integer> temp2=new ArrayList<Integer>();
+            			// constant x value of the pivot (first in the list)
+            			game.getBoardP1()[game.getSelectedCoords().get(i).get(0)][game.getSelectedCoords().get(i).get(1)]=" ";
+
+            			// subtracts i from the y value to move it down 
+            			temp2.add(game.getSelectedCoords().get(0).get(0));
+
+            			temp2.add((game.getSelectedCoords().get(i).get(1)) -i);
+            			System.out.println("orig y coord: "+game.getSelectedCoords().get(i).get(1));
+            			
+            			temp.add(temp2);
+            		}
+            		
+            		System.out.println("Desired: "+temp);
+        			
+        			
+        			
         		}
-        		
-        		System.out.println("Desired: "+temp);
-        		
-        		
+        		// THIS IS THE CONSTANT OF ROTATION
         		// confirms the readdition of pieces on the board
         		// NEED: temp for the rotation of varying pieces
+        		
+    			game.getBoardP1()[game.getSelectedCoords().get(0).get(0)][game.getSelectedCoords().get(0).get(1)]=" ";
+
         		
         		boolean add=true;
         		for(int i = 0; i<temp.size(); i++){
         			String check=game.getBoardP1()[temp.get(i).get(0)][temp.get(i).get(1)];
-        			if(check.contains("D") || check.contains("C") || check.contains("B") || check.contains("R") || check.contains("S")){
+        			if(check.contains("D") || check.contains("C") || check.contains("B") || check.contains("R") || check.contains("S") ||temp.get(i).get(0)==9 || temp.get(i).get(0)==0 || temp.get(i).get(1)==9  || temp.get(i).get(1)==0){
         				add=false;
         				break;
         			}
         		}
         		
+        		
         		// readds the temp list to the real list that game is using
-        		if(add)
+        		
+        		if(add){
+        			ArrayList<Integer> addPivot = new ArrayList<Integer>();
+        			addPivot.add(game.getSelectedCoords().get(0).get(0));
+        			addPivot.add(game.getSelectedCoords().get(0).get(1));
+        			temp.add(addPivot);
         			game.setSelectedCoords(temp);
+        			
+
+        		}
+        		
+        
         		
         	 		
         		// readds the ships to the board
@@ -257,6 +304,10 @@ public class KeyInput extends KeyAdapter implements Serializable {
         			System.out.println(game.getCurrentSelection());
         			game.getBoardP1()[game.getSelectedCoords().get(i).get(0)][game.getSelectedCoords().get(i).get(1)]+=("$"+game.getMouseInput().getCurrentSelected());
         		}
+        		
+        		
+        		
+        		
         		
         		
         		

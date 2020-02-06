@@ -73,11 +73,16 @@ public class KeyInput extends KeyAdapter implements Serializable {
            		 */
             		boolean add=true;
             		for(int i = 0; i<temp.size(); i++){
-            			String check=game.getBoardP1()[temp.get(i).get(0)][temp.get(i).get(1)];
-            			if(check.contains("D") || check.contains("C") || check.contains("B") || check.contains("R") || check.contains("S")|| check.contains("S") || temp.get(i).get(0)==9 || temp.get(i).get(0)==0 || temp.get(i).get(1)==9  || temp.get(i).get(1)==0){
+            			if(!(temp.get(i).get(0)<0 || temp.get(i).get(0)>9 || temp.get(i).get(1)<0  || temp.get(i).get(1)>9)){
+            				String check=game.getBoardP1()[temp.get(i).get(0)][temp.get(i).get(1)];
+                			if(check.contains("D") || check.contains("C") || check.contains("B") || check.contains("R") || check.contains("S")|| check.contains("S")){
+                				add=false;
+                				break;
+                			}
+            			}else{
             				add=false;
-            				break;
             			}
+            			
             		}
             		
             		// readds the temp list to the real list that game is using
@@ -117,11 +122,16 @@ public class KeyInput extends KeyAdapter implements Serializable {
         		
         		boolean add=true;
         		for(int i = 0; i<temp.size(); i++){
-        			String check=game.getBoardP1()[temp.get(i).get(0)][temp.get(i).get(1)];
-        			if(check.contains("D") || check.contains("C") || check.contains("B") || check.contains("R") || check.contains("S")|| check.contains("S") ||temp.get(i).get(0)==9 || temp.get(i).get(0)==0 || temp.get(i).get(1)==9  || temp.get(i).get(1)==0){
+        			if(!(temp.get(i).get(0)<0 || temp.get(i).get(0)>9 || temp.get(i).get(1)<0  || temp.get(i).get(1)>9)){
+        				String check=game.getBoardP1()[temp.get(i).get(0)][temp.get(i).get(1)];
+            			if(check.contains("D") || check.contains("C") || check.contains("B") || check.contains("R") || check.contains("S")|| check.contains("S")){
+            				add=false;
+            				break;
+            			}
+        			}else{
         				add=false;
-        				break;
         			}
+        			
         		}
         		
         		// readds the temp list to the real list that game is using
@@ -156,11 +166,16 @@ public class KeyInput extends KeyAdapter implements Serializable {
         		// readds the temp list to the real list that game is using
         		boolean add=true;
         		for(int i = 0; i<temp.size(); i++){
-        			String check=game.getBoardP1()[temp.get(i).get(0)][temp.get(i).get(1)];
-        			if(check.contains("D") || check.contains("C") || check.contains("B") || check.contains("R") || check.contains("S")|| check.contains("S") ||temp.get(i).get(0)==9 || temp.get(i).get(0)==0 || temp.get(i).get(1)==9  || temp.get(i).get(1)==0){
+        			if(!(temp.get(i).get(0)<0 || temp.get(i).get(0)>9 || temp.get(i).get(1)<0  || temp.get(i).get(1)>9)){
+        				String check=game.getBoardP1()[temp.get(i).get(0)][temp.get(i).get(1)];
+            			if(check.contains("D") || check.contains("C") || check.contains("B") || check.contains("R") || check.contains("S")|| check.contains("S")){
+            				add=false;
+            				break;
+            			}
+        			}else{
         				add=false;
-        				break;
         			}
+        			
         		}
         		
         		// readds the temp list to the real list that game is using
@@ -195,11 +210,16 @@ public class KeyInput extends KeyAdapter implements Serializable {
         		
         		boolean add=true;
         		for(int i = 0; i<temp.size(); i++){
-        			String check=game.getBoardP1()[temp.get(i).get(0)][temp.get(i).get(1)];
-        			if(check.contains("D") || check.contains("C") || check.contains("B") || check.contains("R") || check.contains("S") || temp.get(i).get(0)>9 || temp.get(i).get(0)==9 || temp.get(i).get(0)==0 || temp.get(i).get(1)==9  || temp.get(i).get(1)==0){
+        			if(!(temp.get(i).get(0)<0 || temp.get(i).get(0)>9 || temp.get(i).get(1)<0  || temp.get(i).get(1)>9)){
+        				String check=game.getBoardP1()[temp.get(i).get(0)][temp.get(i).get(1)];
+            			if(check.contains("D") || check.contains("C") || check.contains("B") || check.contains("R") || check.contains("S")|| check.contains("S")){
+            				add=false;
+            				break;
+            			}
+        			}else{
         				add=false;
-        				break;
         			}
+        			
         		}
         		
         		// readds the temp list to the real list that game is using
@@ -274,11 +294,16 @@ public class KeyInput extends KeyAdapter implements Serializable {
         		
         		boolean add=true;
         		for(int i = 0; i<temp.size(); i++){
-        			String check=game.getBoardP1()[temp.get(i).get(0)][temp.get(i).get(1)];
-        			if(check.contains("D") || check.contains("C") || check.contains("B") || check.contains("R") || check.contains("S") ||temp.get(i).get(0)==9 || temp.get(i).get(0)==0 || temp.get(i).get(1)==9  || temp.get(i).get(1)==0){
+        			if(!(temp.get(i).get(0)<0 || temp.get(i).get(0)>9 || temp.get(i).get(1)<0  || temp.get(i).get(1)>9)){
+        				String check=game.getBoardP1()[temp.get(i).get(0)][temp.get(i).get(1)];
+            			if(check.contains("D") || check.contains("C") || check.contains("B") || check.contains("R") || check.contains("S")|| check.contains("S")){
+            				add=false;
+            				break;
+            			}
+        			}else{
         				add=false;
-        				break;
         			}
+        			
         		}
         		
         		

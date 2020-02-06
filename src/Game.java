@@ -228,7 +228,7 @@ public class Game extends Canvas implements Runnable{
         	
         }else if(currentState.equals("Setup")){
         	// displaying the grid (A-J, 1-10)
-        	g.setColor(Color.blue);
+        	g.setColor(new Color(51,204,255));
         	g.fillRect(0, 0, (int)WIDTH, (int)HEIGHT);
         	
         	
@@ -263,6 +263,12 @@ public class Game extends Canvas implements Runnable{
         		}
 
         	}
+        	
+        	g.setFont(new Font("Serif", Font.BOLD, 30));
+
+        	g.drawString("Click to select a ship",800,100);
+        	g.drawString("Arrows to move your ship",800,200);
+        	g.drawString("Press R to rotate your ship",800,300);
         	// DISPLAYING SHIPS: SYMBOLS FOR NOW (will be used for the double array boards
         	
         	// COLORS FOR NOW

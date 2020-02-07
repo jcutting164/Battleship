@@ -41,6 +41,8 @@ public class Game extends Canvas implements Runnable{
     private String currentState="Menu";
     static Textures tex;
     private boolean startSelect=false;
+    private boolean doneSelect=false;
+    private boolean playerOneSetup=true;
     
     // will be used to highlight which ship is being selected
     // NEED TO IMPLEMENT SYSTEM TO TRACK WHICH SQUARE IS SELECTED (LIKE CHECKERS BUT ACCOMODATE FOR LABELS (A-J) (1-10)
@@ -50,6 +52,29 @@ public class Game extends Canvas implements Runnable{
     private String alpha = "ABCDEFGHIJ";
     
     private String boardP1[][] = {
+            //board of player one where the ships are being put
+    		/* EACH SHIP WILL BE A COLOR AT THE MOMENT UNTIL GRAPHICS ARE ADDED TO FILL SPACE
+    		 C = Carrier / RED
+    		 B = Battleship / ORANGE
+    		 R = Cruiser / YELLOW
+    		 S = Submarine / GREEN
+    		 D = Destroyer / BLUE
+    		 */
+            {"C", "C", "C", "C", "C", " ", " ", " "," "," " },
+            {"B", "B", "B", "B", " ", " ", " ", " "," "," " },
+            {"R", "R", "R", " ", " ", " ", " ", " "," "," " },
+            {"S", "S", "S", " ", " ", " ", " ", " "," "," " },
+            {"D", "D", " ", " ", " ", " ", " ", " "," "," " },
+            {" ", " ", " ", " ", " ", " ", " ", " "," "," " },
+            {" ", " ", " ", " ", " ", " ", " ", " "," "," " },
+            {" ", " ", " ", " ", " ", " ", " ", " "," "," " },
+            {" ", " ", " ", " ", " ", " ", " ", " "," "," " },
+            {" ", " ", " ", " ", " ", " ", " ", " "," "," " }
+
+
+    };
+    
+    private String boardP2[][] = {
             //board of player one where the ships are being put
     		/* EACH SHIP WILL BE A COLOR AT THE MOMENT UNTIL GRAPHICS ARE ADDED TO FILL SPACE
     		 C = Carrier / RED
@@ -227,85 +252,212 @@ public class Game extends Canvas implements Runnable{
         	
         	
         }else if(currentState.equals("Setup")){
-        	// displaying the grid (A-J, 1-10)
-        	g.setColor(new Color(51,204,255));
-        	g.fillRect(0, 0, (int)WIDTH, (int)HEIGHT);
         	
-        	
-        	g.setColor(Color.gray);
-        	g.fillRect(1,1,71,71);
-        	g.setColor(Color.black);
-        	g.drawRect(0, 0, 72, 72);
-        	for(int j = 0; j<11; j++){
-        		for(int i = 0; i<11; i++){
-            		g.setColor(Color.gray);
-                	g.fillRect(i*72+1,1+(72*j),71,71);
-                	g.setColor(Color.black);
-                	g.drawRect(0+(72*i), 0+(72*j), 72, 72);
+        	if(playerOneSetup){
+        		
+        		// displaying the grid (A-J, 1-10)
+            	g.setColor(new Color(51,204,255));
+            	g.fillRect(0, 0, (int)WIDTH, (int)HEIGHT);
+            	
+            	
+            	g.setColor(Color.gray);
+            	g.fillRect(1,1,71,71);
+            	g.setColor(Color.black);
+            	g.drawRect(0, 0, 72, 72);
+            	for(int j = 0; j<11; j++){
+            		for(int i = 0; i<11; i++){
+                		g.setColor(Color.gray);
+                    	g.fillRect(i*72+1,1+(72*j),71,71);
+                    	g.setColor(Color.black);
+                    	g.drawRect(0+(72*i), 0+(72*j), 72, 72);
+                	}
             	}
-        	}
-        	
-        	// putting grid letters and numbers
-        	// LETTERS:
-        	g.setFont(new Font("Serif", Font.BOLD, 20));
-        	for(int i = 0; i<10; i++){
-        		if(i<5){
-        			g.drawString(alpha.substring(i,i+1), (i*75)+90, 30);
-        			g.drawString(""+(i+1), 30, (i*75)+105);
+            	
+            	// putting grid letters and numbers
+            	// LETTERS:
+            	g.setFont(new Font("Serif", Font.BOLD, 20));
+            	for(int i = 0; i<10; i++){
+            		if(i<5){
+            			g.drawString(alpha.substring(i,i+1), (i*75)+90, 30);
+            			g.drawString(""+(i+1), 30, (i*75)+105);
 
 
-        		}
-        		else{
-        			g.drawString(alpha.substring(i,i+1), (i*75)+80, 30);
-        			g.drawString(""+(i+1), 30, (i*75)+90);
+            		}
+            		else{
+            			g.drawString(alpha.substring(i,i+1), (i*75)+80, 30);
+            			g.drawString(""+(i+1), 30, (i*75)+90);
 
 
-        		}
+            		}
 
-        	}
-        	
-        	g.setFont(new Font("Serif", Font.BOLD, 30));
+            	}
+            	
+            	g.setFont(new Font("Serif", Font.BOLD, 30));
 
-        	g.drawString("Click to select a ship",800,100);
-        	g.drawString("Arrows to move your ship",800,200);
-        	g.drawString("Press R to rotate your ship",800,300);
-        	// DISPLAYING SHIPS: SYMBOLS FOR NOW (will be used for the double array boards
-        	
-        	// COLORS FOR NOW
-        	// displaying the actual boards
+            	g.drawString("Click to select a ship",800,100);
+            	g.drawString("Arrows to move your ship",800,200);
+            	g.drawString("Press R to rotate your ship",800,300);
+            	// DISPLAYING SHIPS: SYMBOLS FOR NOW (will be used for the double array boards
+            	
+            	// COLORS FOR NOW
+            	// displaying the actual boards
 
-        	
-        	/* EACH SHIP WILL BE A COLOR AT THE MOMENT UNTIL GRAPHICS ARE ADDED TO FILL SPACE
-		   		 C = Carrier / RED
-		   		 B = Battleship / ORANGE
-		   		 R = Cruiser / YELLOW
-		   		 S = Submarine / GREEN
-		   		 D = Destroyer / BLUE
-		   		 */
-        	
-        	
-        	for(int i = 0; i<boardP1.length; i++){
-        		for(int j = 0; j<boardP1[0].length; j++){
-        			if(boardP1[j][i].contains("$")){
-        				g.setColor(Color.cyan);
-        				g.fillRect((72)+   +i*72+1,(72)+   1+(72*j),71,71);
-        			}else if(boardP1[j][i].contains("C")){
-        				g.setColor(Color.red);
-        				g.fillRect((72)+   +i*72+1,(72)+   1+(72*j),71,71);
-        			}else if(boardP1[j][i].contains("B")){
-        				g.setColor(Color.orange);
-        				g.fillRect((72)+   +i*72+1,(72)+   1+(72*j),71,71);
-        			}else if(boardP1[j][i].contains("R")){
-        				g.setColor(Color.yellow);
-        				g.fillRect((72)+   +i*72+1,(72)+   1+(72*j),71,71);
-        			}else if(boardP1[j][i].contains("S")){
-        				g.setColor(Color.green);
-        				g.fillRect((72)+   +i*72+1,(72)+   1+(72*j),71,71);
-        			}else if(boardP1[j][i].contains("D")){
-        				g.setColor(Color.blue);
-        				g.fillRect((72)+   +i*72+1,(72)+   1+(72*j),71,71);
-        			}
-        		}
+            	
+            	/* EACH SHIP WILL BE A COLOR AT THE MOMENT UNTIL GRAPHICS ARE ADDED TO FILL SPACE
+    		   		 C = Carrier / RED
+    		   		 B = Battleship / ORANGE
+    		   		 R = Cruiser / YELLOW
+    		   		 S = Submarine / GREEN
+    		   		 D = Destroyer / BLUE
+    		   		 */
+            	
+            	
+            	for(int i = 0; i<boardP1.length; i++){
+            		for(int j = 0; j<boardP1[0].length; j++){
+            			if(boardP1[j][i].contains("$")){
+            				g.setColor(Color.cyan);
+            				g.fillRect((72)+   +i*72+1,(72)+   1+(72*j),71,71);
+            			}else if(boardP1[j][i].contains("C")){
+            				g.setColor(Color.red);
+            				g.fillRect((72)+   +i*72+1,(72)+   1+(72*j),71,71);
+            			}else if(boardP1[j][i].contains("B")){
+            				g.setColor(Color.orange);
+            				g.fillRect((72)+   +i*72+1,(72)+   1+(72*j),71,71);
+            			}else if(boardP1[j][i].contains("R")){
+            				g.setColor(Color.yellow);
+            				g.fillRect((72)+   +i*72+1,(72)+   1+(72*j),71,71);
+            			}else if(boardP1[j][i].contains("S")){
+            				g.setColor(Color.green);
+            				g.fillRect((72)+   +i*72+1,(72)+   1+(72*j),71,71);
+            			}else if(boardP1[j][i].contains("D")){
+            				g.setColor(Color.blue);
+            				g.fillRect((72)+   +i*72+1,(72)+   1+(72*j),71,71);
+            			}
+            		}
+            	}
+            	
+            	
+            	// button for continuation after setup?
+            	
+            	if(doneSelect){
+            		g.setColor(Color.red);
+                	g.fillRect(901,499,163,65);
+            	}else{
+            		g.setColor(Color.white);
+                	g.fillRect(901,499,163,65);
+            	}
+            	
+            	
+            	g.setColor(Color.black);
+            	Rectangle base = new Rectangle(900,500,164,64);
+            	
+            	g.drawRect((int)base.getX(), (int)base.getY(), (int)base.getWidth(), (int)base.getHeight());
+            	g.drawRect((int)base.getX()-1, (int)base.getY()-1, (int)base.getWidth()+2, (int)base.getHeight()+2);
+            	g.drawString("DONE",938,538);
+            	g.drawString("Player 1", 805,50);
+        		
+        		
+        	}else{
+        		// displaying the grid (A-J, 1-10)
+            	g.setColor(new Color(51,204,255));
+            	g.fillRect(0, 0, (int)WIDTH, (int)HEIGHT);
+            	
+            	
+            	g.setColor(Color.gray);
+            	g.fillRect(1,1,71,71);
+            	g.setColor(Color.black);
+            	g.drawRect(0, 0, 72, 72);
+            	for(int j = 0; j<11; j++){
+            		for(int i = 0; i<11; i++){
+                		g.setColor(Color.gray);
+                    	g.fillRect(i*72+1,1+(72*j),71,71);
+                    	g.setColor(Color.black);
+                    	g.drawRect(0+(72*i), 0+(72*j), 72, 72);
+                	}
+            	}
+            	
+            	// putting grid letters and numbers
+            	// LETTERS:
+            	g.setFont(new Font("Serif", Font.BOLD, 20));
+            	for(int i = 0; i<10; i++){
+            		if(i<5){
+            			g.drawString(alpha.substring(i,i+1), (i*75)+90, 30);
+            			g.drawString(""+(i+1), 30, (i*75)+105);
+
+
+            		}
+            		else{
+            			g.drawString(alpha.substring(i,i+1), (i*75)+80, 30);
+            			g.drawString(""+(i+1), 30, (i*75)+90);
+
+
+            		}
+
+            	}
+            	
+            	g.setFont(new Font("Serif", Font.BOLD, 30));
+
+            	g.drawString("Click to select a ship",800,100);
+            	g.drawString("Arrows to move your ship",800,200);
+            	g.drawString("Press R to rotate your ship",800,300);
+            	// DISPLAYING SHIPS: SYMBOLS FOR NOW (will be used for the double array boards
+            	
+            	// COLORS FOR NOW
+            	// displaying the actual boards
+
+            	
+            	/* EACH SHIP WILL BE A COLOR AT THE MOMENT UNTIL GRAPHICS ARE ADDED TO FILL SPACE
+    		   		 C = Carrier / RED
+    		   		 B = Battleship / ORANGE
+    		   		 R = Cruiser / YELLOW
+    		   		 S = Submarine / GREEN
+    		   		 D = Destroyer / BLUE
+    		   		 */
+            	
+            	
+            	for(int i = 0; i<boardP2.length; i++){
+            		for(int j = 0; j<boardP2[0].length; j++){
+            			if(boardP2[j][i].contains("$")){
+            				g.setColor(Color.cyan);
+            				g.fillRect((72)+   +i*72+1,(72)+   1+(72*j),71,71);
+            			}else if(boardP2[j][i].contains("C")){
+            				g.setColor(Color.red);
+            				g.fillRect((72)+   +i*72+1,(72)+   1+(72*j),71,71);
+            			}else if(boardP2[j][i].contains("B")){
+            				g.setColor(Color.orange);
+            				g.fillRect((72)+   +i*72+1,(72)+   1+(72*j),71,71);
+            			}else if(boardP2[j][i].contains("R")){
+            				g.setColor(Color.yellow);
+            				g.fillRect((72)+   +i*72+1,(72)+   1+(72*j),71,71);
+            			}else if(boardP2[j][i].contains("S")){
+            				g.setColor(Color.green);
+            				g.fillRect((72)+   +i*72+1,(72)+   1+(72*j),71,71);
+            			}else if(boardP2[j][i].contains("D")){
+            				g.setColor(Color.blue);
+            				g.fillRect((72)+   +i*72+1,(72)+   1+(72*j),71,71);
+            			}
+            		}
+            	}
+            	
+            	
+            	// button for continuation after setup?
+            	
+            	if(doneSelect){
+            		g.setColor(Color.red);
+                	g.fillRect(901,499,163,65);
+            	}else{
+            		g.setColor(Color.white);
+                	g.fillRect(901,499,163,65);
+            	}
+            	
+            	
+            	g.setColor(Color.black);
+            	Rectangle base = new Rectangle(900,500,164,64);
+            	
+            	g.drawRect((int)base.getX(), (int)base.getY(), (int)base.getWidth(), (int)base.getHeight());
+            	g.drawRect((int)base.getX()-1, (int)base.getY()-1, (int)base.getWidth()+2, (int)base.getHeight()+2);
+            	g.drawString("DONE",938,538);
+            	g.drawString("Player 2", 805,50);
         	}
         	
         	
@@ -531,6 +683,22 @@ public class Game extends Canvas implements Runnable{
 	
 	
 	
+
+	public boolean isPlayerOneSetup() {
+		return playerOneSetup;
+	}
+
+	public void setPlayerOneSetup(boolean playerOneSetup) {
+		this.playerOneSetup = playerOneSetup;
+	}
+
+	public boolean isDoneSelect() {
+		return doneSelect;
+	}
+
+	public void setDoneSelect(boolean doneSelect) {
+		this.doneSelect = doneSelect;
+	}
 
 	public static void main(String[] args) {
         new Game();

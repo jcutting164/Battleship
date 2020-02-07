@@ -59,6 +59,15 @@ public class MouseInput implements MouseListener, MouseMotionListener{
 			if(new Rectangle(860, 100, 256, 96).intersects(new Rectangle(e.getX(),e.getY(),1,1))){
 				game.setCurrentState("Setup");
 			}
+		}else if(game.getCurrentState().equals("Setup")){
+			if(new Rectangle(900,500,164,64).intersects(new Rectangle(e.getX(),e.getY(),1,1))){
+				if(game.isPlayerOneSetup())
+					game.setPlayerOneSetup(false);
+				else if(!game.isPlayerOneSetup()){
+					// transition to game mode
+					//game.setCurrentState();
+				}
+			}
 		}
     }
 
@@ -71,6 +80,12 @@ public class MouseInput implements MouseListener, MouseMotionListener{
 			game.setStartSelect(false);
 			if(new Rectangle(860, 100, 256, 96).intersects(new Rectangle(e.getX(),e.getY(),1,1))){
 				game.setStartSelect(true);
+			}
+		}else if(game.getCurrentState().equals("Setup")){
+			game.setDoneSelect(false);
+			if(new Rectangle(900,500,164,64).intersects(new Rectangle(e.getX(),e.getY(),1,1))){
+				// will control done
+				game.setDoneSelect(true);
 			}
 		}
 		

@@ -50,7 +50,7 @@ public class KeyInput extends KeyAdapter implements Serializable {
             			
                 		// clears what is currently selected
             			// NOTICE: the reset is to the original board space: " "
-            			game.getBoardP1()[game.getSelectedCoords().get(i).get(0)][game.getSelectedCoords().get(i).get(1)]=" ";
+            			game.getCurrentBoard()[game.getSelectedCoords().get(i).get(0)][game.getSelectedCoords().get(i).get(1)]=" ";
             			
             			// modifies the current selected coords
             			ArrayList<Integer> temp2=new ArrayList<Integer>();
@@ -74,7 +74,7 @@ public class KeyInput extends KeyAdapter implements Serializable {
             		boolean add=true;
             		for(int i = 0; i<temp.size(); i++){
             			if(!(temp.get(i).get(0)<0 || temp.get(i).get(0)>9 || temp.get(i).get(1)<0  || temp.get(i).get(1)>9)){
-            				String check=game.getBoardP1()[temp.get(i).get(0)][temp.get(i).get(1)];
+            				String check=game.getCurrentBoard()[temp.get(i).get(0)][temp.get(i).get(1)];
                 			if(check.contains("D") || check.contains("C") || check.contains("B") || check.contains("R") || check.contains("S")|| check.contains("S")){
                 				add=false;
                 				break;
@@ -93,7 +93,7 @@ public class KeyInput extends KeyAdapter implements Serializable {
             		// readds the ships to the board via the selected coords
             		
             		for(int i = 0; i<game.getSelectedCoords().size(); i++){
-            			game.getBoardP1()[game.getSelectedCoords().get(i).get(0)][game.getSelectedCoords().get(i).get(1)]+=("$"+game.getMouseInput().getCurrentSelected());
+						game.getCurrentBoard()[game.getSelectedCoords().get(i).get(0)][game.getSelectedCoords().get(i).get(1)]+=("$"+game.getMouseInput().getCurrentSelected());
             		}
         		
         		
@@ -110,7 +110,7 @@ public class KeyInput extends KeyAdapter implements Serializable {
         			
             		// clears what is currently selected
 
-        			game.getBoardP1()[game.getSelectedCoords().get(i).get(0)][game.getSelectedCoords().get(i).get(1)]=" ";
+					game.getCurrentBoard()[game.getSelectedCoords().get(i).get(0)][game.getSelectedCoords().get(i).get(1)]=" ";
         			
         			// modifies the current selected coords
         			ArrayList<Integer> temp2=new ArrayList<Integer>();
@@ -123,7 +123,7 @@ public class KeyInput extends KeyAdapter implements Serializable {
         		boolean add=true;
         		for(int i = 0; i<temp.size(); i++){
         			if(!(temp.get(i).get(0)<0 || temp.get(i).get(0)>9 || temp.get(i).get(1)<0  || temp.get(i).get(1)>9)){
-        				String check=game.getBoardP1()[temp.get(i).get(0)][temp.get(i).get(1)];
+        				String check=game.getCurrentBoard()[temp.get(i).get(0)][temp.get(i).get(1)];
             			if(check.contains("D") || check.contains("C") || check.contains("B") || check.contains("R") || check.contains("S")|| check.contains("S")){
             				add=false;
             				break;
@@ -142,7 +142,7 @@ public class KeyInput extends KeyAdapter implements Serializable {
         		// readds the ships to the board
         		
         		for(int i = 0; i<game.getSelectedCoords().size(); i++){
-        			game.getBoardP1()[game.getSelectedCoords().get(i).get(0)][game.getSelectedCoords().get(i).get(1)]+=("$"+game.getMouseInput().getCurrentSelected());
+					game.getCurrentBoard()[game.getSelectedCoords().get(i).get(0)][game.getSelectedCoords().get(i).get(1)]+=("$"+game.getMouseInput().getCurrentSelected());
         		}
 
         	}else if(key==KeyEvent.VK_LEFT){
@@ -153,7 +153,7 @@ public class KeyInput extends KeyAdapter implements Serializable {
         			
             		// clears what is currently selected
 
-        			game.getBoardP1()[game.getSelectedCoords().get(i).get(0)][game.getSelectedCoords().get(i).get(1)]=" ";
+        			game.getCurrentBoard()[game.getSelectedCoords().get(i).get(0)][game.getSelectedCoords().get(i).get(1)]=" ";
         			
         			// modifies the current selected coords
         			ArrayList<Integer> temp2=new ArrayList<Integer>();
@@ -167,7 +167,7 @@ public class KeyInput extends KeyAdapter implements Serializable {
         		boolean add=true;
         		for(int i = 0; i<temp.size(); i++){
         			if(!(temp.get(i).get(0)<0 || temp.get(i).get(0)>9 || temp.get(i).get(1)<0  || temp.get(i).get(1)>9)){
-        				String check=game.getBoardP1()[temp.get(i).get(0)][temp.get(i).get(1)];
+        				String check=game.getCurrentBoard()[temp.get(i).get(0)][temp.get(i).get(1)];
             			if(check.contains("D") || check.contains("C") || check.contains("B") || check.contains("R") || check.contains("S")|| check.contains("S")){
             				add=false;
             				break;
@@ -186,7 +186,7 @@ public class KeyInput extends KeyAdapter implements Serializable {
         		// readds the ships to the board
         		
         		for(int i = 0; i<game.getSelectedCoords().size(); i++){
-        			game.getBoardP1()[game.getSelectedCoords().get(i).get(0)][game.getSelectedCoords().get(i).get(1)]+=("$"+game.getMouseInput().getCurrentSelected());
+					game.getCurrentBoard()[game.getSelectedCoords().get(i).get(0)][game.getSelectedCoords().get(i).get(1)]+=("$"+game.getMouseInput().getCurrentSelected());
         		}
         		
 
@@ -198,7 +198,7 @@ public class KeyInput extends KeyAdapter implements Serializable {
         			
             		// clears what is currently selected
 
-        			game.getBoardP1()[game.getSelectedCoords().get(i).get(0)][game.getSelectedCoords().get(i).get(1)]=" ";
+        			game.getCurrentBoard()[game.getSelectedCoords().get(i).get(0)][game.getSelectedCoords().get(i).get(1)]=" ";
         			
         			// modifies the current selected coords
         			ArrayList<Integer> temp2=new ArrayList<Integer>();
@@ -211,7 +211,7 @@ public class KeyInput extends KeyAdapter implements Serializable {
         		boolean add=true;
         		for(int i = 0; i<temp.size(); i++){
         			if(!(temp.get(i).get(0)<0 || temp.get(i).get(0)>9 || temp.get(i).get(1)<0  || temp.get(i).get(1)>9)){
-        				String check=game.getBoardP1()[temp.get(i).get(0)][temp.get(i).get(1)];
+        				String check=game.getCurrentBoard()[temp.get(i).get(0)][temp.get(i).get(1)];
             			if(check.contains("D") || check.contains("C") || check.contains("B") || check.contains("R") || check.contains("S")|| check.contains("S")){
             				add=false;
             				break;
@@ -232,7 +232,7 @@ public class KeyInput extends KeyAdapter implements Serializable {
         		for(int i = 0; i<game.getSelectedCoords().size(); i++){
         			System.out.println("jajaja "+"$"+game.getCurrentSelection());
         			System.out.println(game.getCurrentSelection());
-        			game.getBoardP1()[game.getSelectedCoords().get(i).get(0)][game.getSelectedCoords().get(i).get(1)]+=("$"+game.getMouseInput().getCurrentSelected());
+					game.getCurrentBoard()[game.getSelectedCoords().get(i).get(0)][game.getSelectedCoords().get(i).get(1)]+=("$"+game.getMouseInput().getCurrentSelected());
         		}
         		
         		
@@ -247,7 +247,7 @@ public class KeyInput extends KeyAdapter implements Serializable {
             		for(int i = 1; i<game.getSelectedCoords().size(); i++){
             			ArrayList<Integer> temp2=new ArrayList<Integer>();
             			// constant x value of the pivot (first in the list)
-            			game.getBoardP1()[game.getSelectedCoords().get(i).get(0)][game.getSelectedCoords().get(i).get(1)]=" ";
+						game.getCurrentBoard()[game.getSelectedCoords().get(i).get(0)][game.getSelectedCoords().get(i).get(1)]=" ";
 
             			// subtracts i from the y value to move it down 
             			temp2.add((game.getSelectedCoords().get(i).get(0)) -i);
@@ -269,7 +269,7 @@ public class KeyInput extends KeyAdapter implements Serializable {
             		for(int i = 1; i<game.getSelectedCoords().size(); i++){
             			ArrayList<Integer> temp2=new ArrayList<Integer>();
             			// constant x value of the pivot (first in the list)
-            			game.getBoardP1()[game.getSelectedCoords().get(i).get(0)][game.getSelectedCoords().get(i).get(1)]=" ";
+						game.getCurrentBoard()[game.getSelectedCoords().get(i).get(0)][game.getSelectedCoords().get(i).get(1)]=" ";
 
             			// subtracts i from the y value to move it down 
             			temp2.add(game.getSelectedCoords().get(0).get(0));
@@ -288,14 +288,14 @@ public class KeyInput extends KeyAdapter implements Serializable {
         		// THIS IS THE CONSTANT OF ROTATION
         		// confirms the readdition of pieces on the board
         		// NEED: temp for the rotation of varying pieces
-        		
-    			game.getBoardP1()[game.getSelectedCoords().get(0).get(0)][game.getSelectedCoords().get(0).get(1)]=" ";
+
+				game.getCurrentBoard()[game.getSelectedCoords().get(0).get(0)][game.getSelectedCoords().get(0).get(1)]=" ";
 
         		
         		boolean add=true;
         		for(int i = 0; i<temp.size(); i++){
         			if(!(temp.get(i).get(0)<0 || temp.get(i).get(0)>9 || temp.get(i).get(1)<0  || temp.get(i).get(1)>9)){
-        				String check=game.getBoardP1()[temp.get(i).get(0)][temp.get(i).get(1)];
+        				String check=game.getCurrentBoard()[temp.get(i).get(0)][temp.get(i).get(1)];
             			if(check.contains("D") || check.contains("C") || check.contains("B") || check.contains("R") || check.contains("S")|| check.contains("S")){
             				add=false;
             				break;
@@ -327,7 +327,7 @@ public class KeyInput extends KeyAdapter implements Serializable {
         		for(int i = 0; i<game.getSelectedCoords().size(); i++){
         			System.out.println("jajaja "+"$"+game.getCurrentSelection());
         			System.out.println(game.getCurrentSelection());
-        			game.getBoardP1()[game.getSelectedCoords().get(i).get(0)][game.getSelectedCoords().get(i).get(1)]+=("$"+game.getMouseInput().getCurrentSelected());
+        			game.getCurrentBoard()[game.getSelectedCoords().get(i).get(0)][game.getSelectedCoords().get(i).get(1)]+=("$"+game.getMouseInput().getCurrentSelected());
         		}
         		
         		

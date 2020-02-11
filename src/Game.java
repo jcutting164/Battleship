@@ -43,11 +43,11 @@ public class Game extends Canvas implements Runnable{
     private boolean startSelect=false;
     private boolean doneSelect=false;
     private boolean playerOneSetup=true;
+    private boolean playerOneTurn=true;
     
     // will be used to highlight which ship is being selected
     // NEED TO IMPLEMENT SYSTEM TO TRACK WHICH SQUARE IS SELECTED (LIKE CHECKERS BUT ACCOMODATE FOR LABELS (A-J) (1-10)
     private String currentSelection="";
-    
     
     private String alpha = "ABCDEFGHIJ";
     
@@ -73,8 +73,11 @@ public class Game extends Canvas implements Runnable{
 
 
     };
-    
-    private String boardP2[][] = {
+
+	private String[][] currentBoard=boardP1;
+
+
+	private String boardP2[][] = {
             //board of player one where the ships are being put
     		/* EACH SHIP WILL BE A COLOR AT THE MOMENT UNTIL GRAPHICS ARE ADDED TO FILL SPACE
     		 C = Carrier / RED
@@ -465,7 +468,207 @@ public class Game extends Canvas implements Runnable{
         	
         	
         	
-        }
+        }else if(currentState.equals("game")){
+        	// start of gameplay / hitting
+
+
+			// NEED: 2 boards: one to show hits and misses, the other to show where YOU have been hit
+
+
+			// left board: FOR PICKING A NEW HIT / DISPLAYING MISSES
+			// START OF LEFT BOARD
+
+			int ts = 47;
+
+
+			g.setColor(new Color(51,204,255));
+			g.fillRect(0, 0, (int)WIDTH, (int)HEIGHT);
+
+
+			g.setColor(Color.gray);
+			g.fillRect(1,1,ts-1,ts-1);
+			g.setColor(Color.black);
+			g.drawRect(0, 0, ts, ts);
+			for(int j = 0; j<11; j++){
+				for(int i = 0; i<11; i++){
+					g.setColor(Color.gray);
+					g.fillRect(i*ts+1,1+(ts*j),ts-1,ts-1);
+					g.setColor(Color.black);
+					g.drawRect(0+(ts*i), 0+(ts*j), ts, ts);
+				}
+			}
+
+			// putting grid letters and numbers
+			// LETTERS:
+			g.setFont(new Font("Serif", Font.BOLD, 20));
+			for(int i = 0; i<10; i++){
+				if(i<5){
+					g.drawString(alpha.substring(i,i+1), (i*ts+1)+70, 30);
+					g.drawString(""+(i+1), 15, (i*ts+1)+85);
+
+
+				}
+				else{
+					g.drawString(alpha.substring(i,i+1), (i*ts+1)+60, 30);
+					g.drawString(""+(i+1), 15, (i*ts+1)+80);
+
+
+				}
+
+			}
+
+			g.setFont(new Font("Serif", Font.BOLD, 30));
+
+			//g.drawString("Click to select a ship",800,100);
+			//g.drawString("Arrows to move your ship",800,200);
+			//g.drawString("Press R to rotate your ship",800,300);
+			// DISPLAYING SHIPS: SYMBOLS FOR NOW (will be used for the double array boards
+
+			// COLORS FOR NOW
+			// displaying the actual boards
+
+
+            	/* EACH SHIP WILL BE A COLOR AT THE MOMENT UNTIL GRAPHICS ARE ADDED TO FILL SPACE
+    		   		 C = Carrier / RED
+    		   		 B = Battleship / ORANGE
+    		   		 R = Cruiser / YELLOW
+    		   		 S = Submarine / GREEN
+    		   		 D = Destroyer / BLUE
+    		   		 */
+
+
+			for(int i = 0; i<boardP1.length; i++){
+				for(int j = 0; j<boardP1[0].length; j++){
+					if(boardP1[j][i].contains("$")){
+						g.setColor(Color.cyan);
+						g.fillRect((ts)+   +i*ts+1,(ts)+   1+(ts*j),ts-1,ts-1);
+					}else if(boardP1[j][i].contains("C")){
+						g.setColor(Color.red);
+						g.fillRect((ts)+   +i*ts+1,(ts)+   1+(ts*j),ts-1,ts-1);
+					}else if(boardP1[j][i].contains("B")){
+						g.setColor(Color.orange);
+						g.fillRect((ts)+   +i*ts+1,(ts)+   1+(ts*j),ts-1,ts-1);
+					}else if(boardP1[j][i].contains("R")){
+						g.setColor(Color.yellow);
+						g.fillRect((ts)+   +i*ts+1,(ts)+   1+(ts*j),ts-1,ts-1);
+					}else if(boardP1[j][i].contains("S")){
+						g.setColor(Color.green);
+						g.fillRect((ts)+   +i*ts+1,(ts)+   1+(ts*j),ts-1,ts-1);
+					}else if(boardP1[j][i].contains("D")){
+						g.setColor(Color.blue);
+						g.fillRect((ts)+   +i*ts+1,(ts)+   1+(ts*j),ts-1,ts-1);
+					}
+				}
+			}
+
+
+			////// END OF LEFT BOARD
+
+			// START OF RIGHT BOARD FOR SHOWING WHERE YOU HAVE BEEN HIT ALREADY///////////////
+			///////////////////////
+			///////////////////////
+
+			///////////////////////
+
+			///////////////////////
+			///////////////////////
+			///////////////////////
+			///////////////////////
+			///////////////////////
+			///////////////////////
+			///////////////////////
+			///////////////////////
+
+			int shiftX=685;
+
+
+
+
+
+			g.setColor(Color.gray);
+			g.fillRect(1+shiftX,1,ts-1,ts-1);
+			g.setColor(Color.black);
+			g.drawRect(shiftX, 0, ts, ts);
+			for(int j = 0; j<11; j++){
+				for(int i = 0; i<11; i++){
+					g.setColor(Color.gray);
+					g.fillRect(i*ts+1+shiftX,1+(ts*j),ts-1,ts-1);
+					g.setColor(Color.black);
+					g.drawRect(shiftX+(ts*i), 0+(ts*j), ts, ts);
+				}
+			}
+
+			// putting grid letters and numbers
+			// LETTERS:
+			g.setFont(new Font("Serif", Font.BOLD, 20));
+			for(int i = 0; i<10; i++){
+				if(i<5){
+					g.drawString(alpha.substring(i,i+1), (i*ts+1)+70+shiftX, 30);
+					g.drawString(""+(i+1), 15+shiftX, (i*ts+1)+85);
+
+
+				}
+				else{
+					g.drawString(alpha.substring(i,i+1), (i*ts+1)+60+shiftX, 30);
+					g.drawString(""+(i+1), 15+shiftX, (i*ts+1)+80);
+
+
+				}
+
+			}
+
+			g.setFont(new Font("Serif", Font.BOLD, 30));
+
+			//g.drawString("Click to select a ship",800,100);
+			//g.drawString("Arrows to move your ship",800,200);
+			//g.drawString("Press R to rotate your ship",800,300);
+			// DISPLAYING SHIPS: SYMBOLS FOR NOW (will be used for the double array boards
+
+			// COLORS FOR NOW
+			// displaying the actual boards
+
+
+            	/* EACH SHIP WILL BE A COLOR AT THE MOMENT UNTIL GRAPHICS ARE ADDED TO FILL SPACE
+    		   		 C = Carrier / RED
+    		   		 B = Battleship / ORANGE
+    		   		 R = Cruiser / YELLOW
+    		   		 S = Submarine / GREEN
+    		   		 D = Destroyer / BLUE
+    		   		 */
+
+
+			for(int i = 0; i<boardP1.length; i++){
+				for(int j = 0; j<boardP1[0].length; j++){
+					if(boardP1[j][i].contains("$")){
+						g.setColor(Color.cyan);
+						g.fillRect((ts)+   +i*ts+1+shiftX,(ts)+   1+(ts*j),ts-1,ts-1);
+					}else if(boardP1[j][i].contains("C")){
+						g.setColor(Color.red);
+						g.fillRect((ts)+   +i*ts+1+shiftX,(ts)+   1+(ts*j),ts-1,ts-1);
+					}else if(boardP1[j][i].contains("B")){
+						g.setColor(Color.orange);
+						g.fillRect((ts)+   +i*ts+1+shiftX,(ts)+   1+(ts*j),ts-1,ts-1);
+					}else if(boardP1[j][i].contains("R")){
+						g.setColor(Color.yellow);
+						g.fillRect((ts)+   +i*ts+1+shiftX,(ts)+   1+(ts*j),ts-1,ts-1);
+					}else if(boardP1[j][i].contains("S")){
+						g.setColor(Color.green);
+						g.fillRect((ts)+   +i*ts+1+shiftX,(ts)+   1+(ts*j),ts-1,ts-1);
+					}else if(boardP1[j][i].contains("D")){
+						g.setColor(Color.blue);
+						g.fillRect((ts)+   +i*ts+1+shiftX,(ts)+   1+(ts*j),ts-1,ts-1);
+					}
+				}
+			}
+
+
+
+			/////////// END OF RIGHT BOARD
+
+
+
+
+		}
         
         
 
@@ -668,10 +871,10 @@ public class Game extends Canvas implements Runnable{
 	 S = Submarine / GREEN
 	 D = Destroyer / BLUE
 	 */
-	public boolean listContains(ArrayList<ArrayList<Integer>> list){
+	public boolean listContains(ArrayList<ArrayList<Integer>> list, String[][] board){
 		boolean result=false;
 		for(int i = 0; i<list.size(); i++){
-			String a = boardP1[list.get(i).get(0)][list.get(i).get(1)];
+			String a = board[list.get(i).get(0)][list.get(i).get(1)];
 			if(! (a.contains("C") || a.contains("B") || a.contains("R") || a.contains("S") || a.contains("D"))){
 				result = true;
 				break;
@@ -679,10 +882,21 @@ public class Game extends Canvas implements Runnable{
 		}
 		return result;
 	}
-	
-	
-	
-	
+
+	public boolean listContains(ArrayList<ArrayList<Integer>> list){
+		boolean result=false;
+		for(int i = 0; i<list.size(); i++){
+			String a = currentBoard[list.get(i).get(0)][list.get(i).get(1)];
+			if(! (a.contains("C") || a.contains("B") || a.contains("R") || a.contains("S") || a.contains("D"))){
+				result = true;
+				break;
+			}
+		}
+		return result;
+	}
+
+
+
 
 	public boolean isPlayerOneSetup() {
 		return playerOneSetup;
@@ -698,6 +912,22 @@ public class Game extends Canvas implements Runnable{
 
 	public void setDoneSelect(boolean doneSelect) {
 		this.doneSelect = doneSelect;
+	}
+
+	public String[][] getCurrentBoard() {
+		return currentBoard;
+	}
+
+	public void setCurrentBoard(String[][] currentBoard) {
+		this.currentBoard = currentBoard;
+	}
+
+	public String[][] getBoardP2() {
+		return boardP2;
+	}
+
+	public void setBoardP2(String[][] boardP2) {
+		this.boardP2 = boardP2;
 	}
 
 	public static void main(String[] args) {

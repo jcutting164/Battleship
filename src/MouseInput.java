@@ -16,33 +16,57 @@ public class MouseInput implements MouseListener, MouseMotionListener{
 		this.game=game;
 	}
 
-    public void mousePressed(MouseEvent e) {
-    	if(game.getCurrentState().equals("Setup") && e.getY()/72<11 && e.getX()/72<11 && e.getY()>71 && e.getX()>71){
-    		setupRow=e.getY()/72 - 1;
-        	setupColumn=e.getX()/72 - 1;
-        	
-        	// check for ship present 
-        	if(!(game.getBoardP1()[setupRow][setupColumn].equals(" "))){
-        		// then there is a piece here
-        		currentSelected=game.getBoardP1()[setupRow][setupColumn];
-        		game.removeSelection(game.getBoardP1());
-        		game.setSelectedCoords(new ArrayList<ArrayList<Integer>>());
-        		
-        		game.selectAll(currentSelected, game.getBoardP1());
-        		
-        		// TO BE DONE: ADD SELECTION COORDS TO ARRAY IN THE SELECT ALL FUNCTION IN MAIN GAME
-        		
-        	}else{
-        		currentSelected="";
-        	}
-        	
-        	
-    	}else{
-    		setupRow=-1;
-    		setupColumn=-1;
-    	}
-    	
-    }
+
+
+
+	public void mousePressed(MouseEvent e) {
+		if(game.getCurrentState().equals("Setup") && e.getY()/72<11 && e.getX()/72<11 && e.getY()>71 && e.getX()>71){
+			setupRow=e.getY()/72 - 1;
+			setupColumn=e.getX()/72 - 1;
+
+			// check for ship present
+			if(!(game.getCurrentBoard()[setupRow][setupColumn].equals(" "))){
+				// then there is a piece here
+				currentSelected=game.getCurrentBoard()[setupRow][setupColumn];
+				game.removeSelection(game.getCurrentBoard());
+				game.setSelectedCoords(new ArrayList<ArrayList<Integer>>());
+
+				game.selectAll(currentSelected, game.getCurrentBoard());
+
+				// TO BE DONE: ADD SELECTION COORDS TO ARRAY IN THE SELECT ALL FUNCTION IN MAIN GAME
+
+			}else{
+				currentSelected="";
+			}
+
+
+		}else{
+			setupRow=-1;
+			setupColumn=-1;
+		}
+
+
+		if(game.getCurrentState().equals("Menu")){
+			if(new Rectangle(860, 100, 256, 96).intersects(new Rectangle(e.getX(),e.getY(),1,1))){
+				game.setCurrentState("Setup");
+			}
+		}else if(game.getCurrentState().equals("Setup")){
+			if(new Rectangle(900,500,164,64).intersects(new Rectangle(e.getX(),e.getY(),1,1))){
+				if(game.isPlayerOneSetup()){
+					game.setPlayerOneSetup(false);
+					game.setCurrentBoard(game.getBoardP2());
+
+				}
+				else if(!game.isPlayerOneSetup()){
+					// transition to game mode
+					game.setCurrentState("game");
+				}
+			}
+		}
+
+
+	}
+
 
     public void mouseReleased(MouseEvent e) {
 
@@ -55,20 +79,7 @@ public class MouseInput implements MouseListener, MouseMotionListener{
     }
 
     public void mouseClicked(MouseEvent e) {
-    	if(game.getCurrentState().equals("Menu")){
-			if(new Rectangle(860, 100, 256, 96).intersects(new Rectangle(e.getX(),e.getY(),1,1))){
-				game.setCurrentState("Setup");
-			}
-		}else if(game.getCurrentState().equals("Setup")){
-			if(new Rectangle(900,500,164,64).intersects(new Rectangle(e.getX(),e.getY(),1,1))){
-				if(game.isPlayerOneSetup())
-					game.setPlayerOneSetup(false);
-				else if(!game.isPlayerOneSetup()){
-					// transition to game mode
-					//game.setCurrentState();
-				}
-			}
-		}
+
     }
 
 	public void mouseDragged(MouseEvent e) {

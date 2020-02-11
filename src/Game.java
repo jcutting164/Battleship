@@ -50,6 +50,7 @@ public class Game extends Canvas implements Runnable{
     private String currentSelection="";
     
     private String alpha = "ABCDEFGHIJ";
+    private int ts;
     
     private String boardP1[][] = {
             //board of player one where the ships are being put
@@ -478,7 +479,7 @@ public class Game extends Canvas implements Runnable{
 			// left board: FOR PICKING A NEW HIT / DISPLAYING MISSES
 			// START OF LEFT BOARD
 
-			int ts = 47;
+			ts = 47;
 
 
 			g.setColor(new Color(51,204,255));
@@ -542,20 +543,15 @@ public class Game extends Canvas implements Runnable{
 					if(boardP1[j][i].contains("$")){
 						g.setColor(Color.cyan);
 						g.fillRect((ts)+   +i*ts+1,(ts)+   1+(ts*j),ts-1,ts-1);
-					}else if(boardP1[j][i].contains("C")){
-						g.setColor(Color.red);
+						
+					}else if(boardP1[j][i].contains("#")){
+						g.setColor(new Color(106,13,173));
 						g.fillRect((ts)+   +i*ts+1,(ts)+   1+(ts*j),ts-1,ts-1);
-					}else if(boardP1[j][i].contains("B")){
-						g.setColor(Color.orange);
+					}else if(boardP1[j][i].contains("H")){
+						g.setColor(Color.red.darker().darker());
 						g.fillRect((ts)+   +i*ts+1,(ts)+   1+(ts*j),ts-1,ts-1);
-					}else if(boardP1[j][i].contains("R")){
-						g.setColor(Color.yellow);
-						g.fillRect((ts)+   +i*ts+1,(ts)+   1+(ts*j),ts-1,ts-1);
-					}else if(boardP1[j][i].contains("S")){
-						g.setColor(Color.green);
-						g.fillRect((ts)+   +i*ts+1,(ts)+   1+(ts*j),ts-1,ts-1);
-					}else if(boardP1[j][i].contains("D")){
-						g.setColor(Color.blue);
+					}else if(boardP1[j][i].contains("M")){
+						g.setColor(Color.white);
 						g.fillRect((ts)+   +i*ts+1,(ts)+   1+(ts*j),ts-1,ts-1);
 					}
 				}
@@ -641,22 +637,17 @@ public class Game extends Canvas implements Runnable{
 				for(int j = 0; j<boardP1[0].length; j++){
 					if(boardP1[j][i].contains("$")){
 						g.setColor(Color.cyan);
-						g.fillRect((ts)+   +i*ts+1+shiftX,(ts)+   1+(ts*j),ts-1,ts-1);
-					}else if(boardP1[j][i].contains("C")){
-						g.setColor(Color.red);
-						g.fillRect((ts)+   +i*ts+1+shiftX,(ts)+   1+(ts*j),ts-1,ts-1);
-					}else if(boardP1[j][i].contains("B")){
-						g.setColor(Color.orange);
-						g.fillRect((ts)+   +i*ts+1+shiftX,(ts)+   1+(ts*j),ts-1,ts-1);
-					}else if(boardP1[j][i].contains("R")){
-						g.setColor(Color.yellow);
-						g.fillRect((ts)+   +i*ts+1+shiftX,(ts)+   1+(ts*j),ts-1,ts-1);
-					}else if(boardP1[j][i].contains("S")){
-						g.setColor(Color.green);
-						g.fillRect((ts)+   +i*ts+1+shiftX,(ts)+   1+(ts*j),ts-1,ts-1);
-					}else if(boardP1[j][i].contains("D")){
-						g.setColor(Color.blue);
-						g.fillRect((ts)+   +i*ts+1+shiftX,(ts)+   1+(ts*j),ts-1,ts-1);
+						g.fillRect((ts)+   +i*ts+1,(ts)+   1+(ts*j),ts-1,ts-1);
+						
+					}else if(boardP1[j][i].contains("#")){
+						g.setColor(new Color(106,13,173));
+						g.fillRect((ts)+   +i*ts+1,(ts)+   1+(ts*j),ts-1,ts-1);
+					}else if(boardP1[j][i].contains("H")){
+						g.setColor(Color.red.darker().darker());
+						g.fillRect((ts)+   +i*ts+1,(ts)+   1+(ts*j),ts-1,ts-1);
+					}else if(boardP1[j][i].contains("M")){
+						g.setColor(Color.white);
+						g.fillRect((ts)+   +i*ts+1,(ts)+   1+(ts*j),ts-1,ts-1);
 					}
 				}
 			}
@@ -765,11 +756,11 @@ public class Game extends Canvas implements Runnable{
 	public void removeSelection(String[][] board){
 		for(int i = 0; i<board.length; i++){
 			for(int j = 0; j<board[0].length; j++){
-				if(board[i][j].contains("$")){
+				if(board[i][j].contains("$") || board[i][j].contains("#")){
 					String temp = board[i][j];
 					String giveback="";
 					for(int loop = 0; loop<temp.length(); loop++){
-						if(!temp.substring(loop,loop+1).contains("$")){
+						if(!(temp.substring(loop,loop+1).contains("$")||temp.substring(loop,loop+1).contains("#"))){
 							giveback+=temp.substring(loop,loop+1);
 						}
 					}
@@ -928,6 +919,16 @@ public class Game extends Canvas implements Runnable{
 
 	public void setBoardP2(String[][] boardP2) {
 		this.boardP2 = boardP2;
+	}
+
+	
+	
+	public int getTs() {
+		return ts;
+	}
+
+	public void setTs(int ts) {
+		this.ts = ts;
 	}
 
 	public static void main(String[] args) {

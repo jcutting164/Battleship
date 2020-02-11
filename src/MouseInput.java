@@ -11,6 +11,8 @@ public class MouseInput implements MouseListener, MouseMotionListener{
 	private Game game;
 	private int setupRow=-1;
 	private int setupColumn=-1;
+	private int gameRow=-1;
+	private int gameColumn=-1;
 	private String currentSelected="";
 	public MouseInput(Game game){
 		this.game=game;
@@ -60,8 +62,31 @@ public class MouseInput implements MouseListener, MouseMotionListener{
 				else if(!game.isPlayerOneSetup()){
 					// transition to game mode
 					game.setCurrentState("game");
+					game.setCurrentBoard(game.getBoardP1());
 				}
 			}
+		}else if(game.getCurrentState().equals("game")&& e.getY()/game.getTs()<11 && e.getX()/game.getTs()<11 && e.getY()>game.getTs()-1 && e.getX()>game.getTs()-1){
+			gameRow=e.getY()/game.getTs() - 1;
+			gameColumn=e.getX()/game.getTs() - 1;
+			
+			String s = game.getCurrentBoard()[gameRow][gameColumn];
+			/* EACH SHIP WILL BE A COLOR AT THE MOMENT UNTIL GRAPHICS ARE ADDED TO FILL SPACE
+	   		 C = Carrier / RED
+	   		 B = Battleship / ORANGE
+	   		 R = Cruiser / YELLOW
+	   		 S = Submarine / GREEN
+	   		 D = Destroyer / BLUE
+	   		 */
+			if((s.contains("C") || (s.contains("B")) || (s.contains("R")) || (s.contains("S")) || (s.contains("D"))) && !s.contains("H")){
+				// then there is a hit
+				game.getCurrentBoard()[gameRow][gameColumn]+="H";
+			}else if(!s.contains("H")){
+				game.getCurrentBoard()[gameRow][gameColumn]+="M";
+				// switch turn on a miss
+			}
+			
+			
+			
 		}
 
 
@@ -88,6 +113,7 @@ public class MouseInput implements MouseListener, MouseMotionListener{
 
 	public void mouseMoved(MouseEvent e) {
 		if(game.getCurrentState().equals("Menu")){
+			
 			game.setStartSelect(false);
 			if(new Rectangle(860, 100, 256, 96).intersects(new Rectangle(e.getX(),e.getY(),1,1))){
 				game.setStartSelect(true);
@@ -98,7 +124,16 @@ public class MouseInput implements MouseListener, MouseMotionListener{
 				// will control done
 				game.setDoneSelect(true);
 			}
+		}else if(game.getCurrentState().equals("game")&&e.getY()/game.getTs()<11 && e.getX()/game.getTs()<11 && e.getY()>game.getTs()-1 && e.getX()>game.getTs()-1){
+			// clear all hovers then reasign
+			game.removeSelection(game.getCurrentBoard());
+			System.out.println("happening");
+			game.getCurrentBoard()[e.getY()/game.getTs() - 1][e.getX()/game.getTs() - 1]+="#";
+			
+		}else if(game.getCurrentState().equals("game")){
+			game.removeSelection(game.getCurrentBoard());
 		}
+		
 		
 		
 		

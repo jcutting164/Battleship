@@ -1,3 +1,5 @@
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import java.awt.Canvas;
 
 import java.awt.Color;
@@ -37,7 +39,7 @@ public class Game extends Canvas implements Runnable{
     private KeyInput keyInput;
     private MouseInput mouseInput;
 // STATES ARE HEREEEEEEEE
-    private String[] STATES = {"Menu", "Game","Setup"};
+    private String[] STATES = {"Menu", "Game","Setup","end"};
     private String currentState="Menu";
     static Textures tex;
     private boolean startSelect=false;
@@ -51,8 +53,22 @@ public class Game extends Canvas implements Runnable{
     
     private String alpha = "ABCDEFGHIJ";
     private int ts;
-    
-    private String boardP1[][] = {
+
+    private int C_kills_P1=0;
+	private int B_kills_P1=0;
+	private int R_kills_P1=0;
+	private int S_kills_P1=0;
+	private int D_kills_P1=0;
+
+	private int C_kills_P2=0;
+	private int B_kills_P2=0;
+	private int R_kills_P2=0;
+	private int S_kills_P2=0;
+	private int D_kills_P2=0;
+
+
+
+	private String boardP1[][] = {
             //board of player one where the ships are being put
     		/* EACH SHIP WILL BE A COLOR AT THE MOMENT UNTIL GRAPHICS ARE ADDED TO FILL SPACE
     		 C = Carrier / RED
@@ -235,7 +251,10 @@ public class Game extends Canvas implements Runnable{
         
         
         if(currentState.equals("Menu")){
-        	tex=new Textures();
+			//PlaySound(new File("res/BATTLESHIPP.WAV"));
+
+
+			tex=new Textures();
         	g.drawImage(tex.Menu,0,0,1200,800,null);
         	g.setColor(Color.black);
         	g.drawRect(860, 100, 256, 96);
@@ -470,6 +489,11 @@ public class Game extends Canvas implements Runnable{
         	
         	
         }else if(currentState.equals("game")){
+        	if(playerOneTurn)
+        		currentBoard=boardP2;
+        	else
+        		currentBoard=boardP1;
+
         	// start of gameplay / hitting
 
 
@@ -538,24 +562,48 @@ public class Game extends Canvas implements Runnable{
     		   		 */
 
 
-			for(int i = 0; i<boardP1.length; i++){
-				for(int j = 0; j<boardP1[0].length; j++){
-					if(boardP1[j][i].contains("$")){
-						g.setColor(Color.cyan);
-						g.fillRect((ts)+   +i*ts+1,(ts)+   1+(ts*j),ts-1,ts-1);
-						
-					}else if(boardP1[j][i].contains("#")){
-						g.setColor(new Color(106,13,173));
-						g.fillRect((ts)+   +i*ts+1,(ts)+   1+(ts*j),ts-1,ts-1);
-					}else if(boardP1[j][i].contains("H")){
-						g.setColor(Color.red.darker().darker());
-						g.fillRect((ts)+   +i*ts+1,(ts)+   1+(ts*j),ts-1,ts-1);
-					}else if(boardP1[j][i].contains("M")){
-						g.setColor(Color.white);
-						g.fillRect((ts)+   +i*ts+1,(ts)+   1+(ts*j),ts-1,ts-1);
+            if(playerOneTurn){
+				for(int i = 0; i<boardP2.length; i++){
+					for(int j = 0; j<boardP2[0].length; j++){
+						if(boardP2[j][i].contains("#")){
+							g.setColor(new Color(106,13,173));
+							g.fillRect((ts)+   +i*ts+1,(ts)+   1+(ts*j),ts-1,ts-1);
+						}else if(boardP2[j][i].contains("H")){
+							g.setColor(Color.red.darker().darker());
+							g.fillRect((ts)+   +i*ts+1,(ts)+   1+(ts*j),ts-1,ts-1);
+						}else if(boardP2[j][i].contains("M")){
+							g.setColor(Color.white);
+							g.fillRect((ts)+   +i*ts+1,(ts)+   1+(ts*j),ts-1,ts-1);
+						}
 					}
 				}
+				g.setColor(Color.black);
+
+				g.drawString("Player 1's turn: Choose a spot to shoot",50,600);
+
+			}else{
+				for(int i = 0; i<boardP1.length; i++){
+					for(int j = 0; j<boardP1[0].length; j++){
+
+
+						if(boardP1[j][i].contains("#")){
+							g.setColor(new Color(106,13,173));
+							g.fillRect((ts)+   +i*ts+1,(ts)+   1+(ts*j),ts-1,ts-1);
+						}else if(boardP1[j][i].contains("H")){
+							g.setColor(Color.red.darker().darker());
+							g.fillRect((ts)+   +i*ts+1,(ts)+   1+(ts*j),ts-1,ts-1);
+						}else if(boardP1[j][i].contains("M")){
+							g.setColor(Color.white);
+							g.fillRect((ts)+   +i*ts+1,(ts)+   1+(ts*j),ts-1,ts-1);
+						}
+					}
+				}
+				g.setColor(Color.black);
+
+				g.drawString("Player 2's turn: Choose a spot to shoot",50,600);
+
 			}
+
 
 
 			////// END OF LEFT BOARD
@@ -632,25 +680,38 @@ public class Game extends Canvas implements Runnable{
     		   		 D = Destroyer / BLUE
     		   		 */
 
-
-			for(int i = 0; i<boardP1.length; i++){
-				for(int j = 0; j<boardP1[0].length; j++){
-					if(boardP1[j][i].contains("$")){
-						g.setColor(Color.cyan);
-						g.fillRect((ts)+   +i*ts+1,(ts)+   1+(ts*j),ts-1,ts-1);
-						
-					}else if(boardP1[j][i].contains("#")){
-						g.setColor(new Color(106,13,173));
-						g.fillRect((ts)+   +i*ts+1,(ts)+   1+(ts*j),ts-1,ts-1);
-					}else if(boardP1[j][i].contains("H")){
-						g.setColor(Color.red.darker().darker());
-						g.fillRect((ts)+   +i*ts+1,(ts)+   1+(ts*j),ts-1,ts-1);
-					}else if(boardP1[j][i].contains("M")){
-						g.setColor(Color.white);
-						g.fillRect((ts)+   +i*ts+1,(ts)+   1+(ts*j),ts-1,ts-1);
+			if(playerOneTurn){
+				for(int i = 0; i<boardP1.length; i++){
+					for(int j = 0; j<boardP1[0].length; j++){
+						if(boardP1[j][i].contains("H")){
+							g.setColor(Color.red.darker().darker());
+							g.fillRect((ts)+   +i*ts+1+shiftX,(ts)+   1+(ts*j),ts-1,ts-1);
+						}else if(boardP1[j][i].contains("M")){
+							g.setColor(Color.white);
+							g.fillRect((ts)+   +i*ts+1+shiftX,(ts)+   1+(ts*j),ts-1,ts-1);
+						}
 					}
 				}
+				g.setColor(Color.black);
+				g.drawString("Player 1's board (shows hits taken)",750,600);
+
+			}else{
+				for(int i = 0; i<boardP2.length; i++){
+					for(int j = 0; j<boardP2[0].length; j++){
+						if(boardP2[j][i].contains("H")){
+							g.setColor(Color.red.darker().darker());
+							g.fillRect((ts)+   +i*ts+1+shiftX,(ts)+   1+(ts*j),ts-1,ts-1);
+						}else if(boardP2[j][i].contains("M")){
+							g.setColor(Color.white);
+							g.fillRect((ts)+   +i*ts+1+shiftX,(ts)+   1+(ts*j),ts-1,ts-1);
+						}
+					}
+				}
+				g.setColor(Color.black);
+				g.drawString("Player 2's board (shows hits taken)",750,600);
+
 			}
+
 
 
 
@@ -658,6 +719,20 @@ public class Game extends Canvas implements Runnable{
 
 
 
+
+		}else if(currentState.equals("end")){
+        	g.setColor(Color.black);
+        	g.fillRect(0,0,(int)WIDTH,(int)HEIGHT);
+
+        	g.setColor(Color.white);
+			g.setFont(new Font("Serif", Font.BOLD, 95));
+
+			if(playerOneTurn){
+        		g.drawString("Player 1 wins!",350,300);
+			}else{
+				g.drawString("Player 2 wins!",350,300);
+
+			}
 
 		}
         
@@ -921,8 +996,14 @@ public class Game extends Canvas implements Runnable{
 		this.boardP2 = boardP2;
 	}
 
-	
-	
+	public boolean isPlayerOneTurn() {
+		return playerOneTurn;
+	}
+
+	public void setPlayerOneTurn(boolean playerOneTurn) {
+		this.playerOneTurn = playerOneTurn;
+	}
+
 	public int getTs() {
 		return ts;
 	}
@@ -931,10 +1012,100 @@ public class Game extends Canvas implements Runnable{
 		this.ts = ts;
 	}
 
+	public int getC_kills_P1() {
+		return C_kills_P1;
+	}
+
+	public void setC_kills_P1(int c_kills_P1) {
+		C_kills_P1 = c_kills_P1;
+	}
+
+	public int getB_kills_P1() {
+		return B_kills_P1;
+	}
+
+	public void setB_kills_P1(int b_kills_P1) {
+		B_kills_P1 = b_kills_P1;
+	}
+
+	public int getR_kills_P1() {
+		return R_kills_P1;
+	}
+
+	public void setR_kills_P1(int r_kills_P1) {
+		R_kills_P1 = r_kills_P1;
+	}
+
+	public int getS_kills_P1() {
+		return S_kills_P1;
+	}
+
+	public void setS_kills_P1(int s_kills_P1) {
+		S_kills_P1 = s_kills_P1;
+	}
+
+	public int getD_kills_P1() {
+		return D_kills_P1;
+	}
+
+	public void setD_kills_P1(int d_kills_P1) {
+		D_kills_P1 = d_kills_P1;
+	}
+
+	public int getC_kills_P2() {
+		return C_kills_P2;
+	}
+
+	public void setC_kills_P2(int c_kills_P2) {
+		C_kills_P2 = c_kills_P2;
+	}
+
+	public int getB_kills_P2() {
+		return B_kills_P2;
+	}
+
+	public void setB_kills_P2(int b_kills_P2) {
+		B_kills_P2 = b_kills_P2;
+	}
+
+	public int getR_kills_P2() {
+		return R_kills_P2;
+	}
+
+	public void setR_kills_P2(int r_kills_P2) {
+		R_kills_P2 = r_kills_P2;
+	}
+
+	public int getS_kills_P2() {
+		return S_kills_P2;
+	}
+
+	public void setS_kills_P2(int s_kills_P2) {
+		S_kills_P2 = s_kills_P2;
+	}
+
+	public int getD_kills_P2() {
+		return D_kills_P2;
+	}
+
+	public void setD_kills_P2(int d_kills_P2) {
+		D_kills_P2 = d_kills_P2;
+	}
+
 	public static void main(String[] args) {
         new Game();
 
     }
+	static void PlaySound(File Sound){
+		try{
+			Clip clip = AudioSystem.getClip();
+			clip.open(AudioSystem.getAudioInputStream(Sound));
+			clip.start();
+
+		}catch(Exception e){
+
+		}
+	}
 
 
 }

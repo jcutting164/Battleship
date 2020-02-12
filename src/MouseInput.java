@@ -4,6 +4,10 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 
+import javax.sound.sampled.AudioSystem;
+import java.io.File;
+import javax.sound.sampled.Clip;
+
 public class MouseInput implements MouseListener, MouseMotionListener{
         //where initialization occurs:
         //Register for mouse events on blankArea and the panel.
@@ -14,6 +18,11 @@ public class MouseInput implements MouseListener, MouseMotionListener{
 	private int gameRow=-1;
 	private int gameColumn=-1;
 	private String currentSelected="";
+
+
+
+
+
 	public MouseInput(Game game){
 		this.game=game;
 	}
@@ -22,6 +31,7 @@ public class MouseInput implements MouseListener, MouseMotionListener{
 
 
 	public void mousePressed(MouseEvent e) {
+
 		if(game.getCurrentState().equals("Setup") && e.getY()/72<11 && e.getX()/72<11 && e.getY()>71 && e.getX()>71){
 			setupRow=e.getY()/72 - 1;
 			setupColumn=e.getX()/72 - 1;
@@ -62,7 +72,8 @@ public class MouseInput implements MouseListener, MouseMotionListener{
 				else if(!game.isPlayerOneSetup()){
 					// transition to game mode
 					game.setCurrentState("game");
-					game.setCurrentBoard(game.getBoardP1());
+					game.setCurrentBoard(game.getBoardP2());
+					game.setPlayerOneTurn(true);
 				}
 			}
 		}else if(game.getCurrentState().equals("game")&& e.getY()/game.getTs()<11 && e.getX()/game.getTs()<11 && e.getY()>game.getTs()-1 && e.getX()>game.getTs()-1){
@@ -77,12 +88,120 @@ public class MouseInput implements MouseListener, MouseMotionListener{
 	   		 S = Submarine / GREEN
 	   		 D = Destroyer / BLUE
 	   		 */
-			if((s.contains("C") || (s.contains("B")) || (s.contains("R")) || (s.contains("S")) || (s.contains("D"))) && !s.contains("H")){
+			if((s.contains("C") || (s.contains("B")) || (s.contains("R")) || (s.contains("S")) || (s.contains("D"))) && !s.contains("H") ){
 				// then there is a hit
 				game.getCurrentBoard()[gameRow][gameColumn]+="H";
-			}else if(!s.contains("H")){
+				if(game.isPlayerOneTurn()){
+					System.out.println("kills: "+game.getC_kills_P1());
+                    if(s.contains("C")){
+                        game.setC_kills_P1(game.getC_kills_P1()+1);
+                        if(game.getC_kills_P1() == 5){
+                            PlaySound(new File("res/carrier.wav"));
+                        }else{
+							PlaySound(new File("res/hit.WAV"));
+
+						}
+                    }else if(s.contains("B")){
+                        game.setB_kills_P1(game.getB_kills_P1()+1);
+                        if(game.getB_kills_P1() == 4){
+							PlaySound(new File("res/battleship.wav"));
+                        }else{
+							PlaySound(new File("res/hit.WAV"));
+
+						}
+                    }else if(s.contains("R")){
+                        game.setR_kills_P1(game.getR_kills_P1()+1);
+                        if(game.getR_kills_P1() == 3){
+							PlaySound(new File("res/cruiser.wav"));
+                        }else{
+							PlaySound(new File("res/hit.WAV"));
+
+						}
+                    }else if(s.contains("S")){
+                        game.setS_kills_P1(game.getS_kills_P1()+1);
+                        if(game.getS_kills_P1() == 3){
+							PlaySound(new File("res/sub.wav"));
+                        }else{
+							PlaySound(new File("res/hit.WAV"));
+
+						}
+                    }else if(s.contains("D")){
+                        game.setD_kills_P1(game.getD_kills_P1()+1);
+                        if(game.getD_kills_P1() == 2){
+							PlaySound(new File("res/destroyer.wav"));
+                        }else{
+							PlaySound(new File("res/hit.WAV"));
+
+						}
+                    }
+					if(game.getC_kills_P1() + game.getD_kills_P1() + game.getB_kills_P1() + game.getR_kills_P1() + game.getS_kills_P1() == 17){
+						game.setCurrentState("end");
+					}
+                }else{
+                    if(s.contains("C")){
+                        game.setC_kills_P2(game.getC_kills_P2()+1);
+                        if(game.getC_kills_P2() == 5){
+							PlaySound(new File("res/carrier.wav"));
+                        }else{
+							PlaySound(new File("res/hit.WAV"));
+
+						}
+                    }else if(s.contains("B")){
+                        game.setB_kills_P2(game.getB_kills_P2()+1);
+                        if(game.getB_kills_P2() == 4){
+							PlaySound(new File("res/battleship.wav"));
+                        }else{
+							PlaySound(new File("res/hit.WAV"));
+
+						}
+                    }else if(s.contains("R")){
+                        game.setR_kills_P2(game.getR_kills_P2()+1);
+                        if(game.getR_kills_P2() == 3){
+							PlaySound(new File("res/cruiser.wav"));
+                        }else{
+							PlaySound(new File("res/hit.WAV"));
+
+						}
+                    }else if(s.contains("S")){
+                        game.setS_kills_P2(game.getS_kills_P2()+1);
+                        if(game.getS_kills_P2() == 3){
+							PlaySound(new File("res/sub.wav"));
+                        }else{
+							PlaySound(new File("res/hit.WAV"));
+
+						}
+                    }else if(s.contains("D")){
+                        game.setD_kills_P2(game.getD_kills_P2()+1);
+                        if(game.getD_kills_P2() == 2){
+							PlaySound(new File("res/destroyer.wav"));
+                        }else{
+							PlaySound(new File("res/hit.WAV"));
+
+						}
+                    }
+
+                    if(game.getC_kills_P2() + game.getD_kills_P2() + game.getB_kills_P2() + game.getR_kills_P2() + game.getS_kills_P2() == 17){
+                    	game.setCurrentState("end");
+					}
+
+
+                }
+
+
+
+
+            }else if(!s.contains("H") && !s.contains("M")){
+
+			    PlaySound(new File("res/miss.WAV"));
+
 				game.getCurrentBoard()[gameRow][gameColumn]+="M";
+
+
 				// switch turn on a miss
+				game.setPlayerOneTurn(!game.isPlayerOneTurn());
+
+
+
 			}
 			
 			
@@ -91,6 +210,17 @@ public class MouseInput implements MouseListener, MouseMotionListener{
 
 
 	}
+
+	static void PlaySound(File Sound){
+	    try{
+	        Clip clip = AudioSystem.getClip();
+	        clip.open(AudioSystem.getAudioInputStream(Sound));
+	        clip.start();
+
+        }catch(Exception e){
+
+        }
+    }
 
 
     public void mouseReleased(MouseEvent e) {
